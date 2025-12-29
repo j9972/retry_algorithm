@@ -2,7 +2,7 @@ import sys
 from collections import Counter
 input = sys.stdin.readline
 
-MAX_CNT = 10000000
+# MAX_CNT = 10000000
 
 n = int(input())
 n_list = list(map(int,input().split()))
