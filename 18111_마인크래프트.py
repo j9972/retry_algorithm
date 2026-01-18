@@ -31,7 +31,7 @@ for curr_grand_height in range(min(dic), max(dic) + 1):
     
     if b + remove >= add:
         time = add + remove * 2
-        if min_time > time or (time == min_time and curr_grand_height > height) :
+        if min_time > time:
             min_time = time
             height = curr_grand_height
 
