@@ -11,19 +11,29 @@ grand = [
 min_time = 10**9
 height = 0
 
-for h in range(min(map(min, grand)), max(map(max, grand)) + 1 ):
-    val = 0
-    for i in range(n):
-        for j in range(m):
-            if h > grand[i][j]:
-                val += abs(h - grand[i][j])
-            elif h < grand[i][j]:
-                val += abs(h - grand[i][j]) * 2
+dic = dict()
+
+for i in range(n):
+    for j in range(m):
+        if grand[i][j] in dic:
+            dic[grand[i][j]] += 1
+        else:
+            dic[grand[i][j]] = 1
+
+for curr_grand_height in range(min(dic), max(dic) + 1):
+    add, remove = 0,0
+
+    for h, cnt in dic.items():
+        if curr_grand_height > h:
+            add += abs(h - curr_grand_height) * cnt
+        elif curr_grand_height < h:
+            remove += abs(h - curr_grand_height) * cnt
     
-    if min_time >= val:
-        min_time = val
-        height = h
+    if b + remove >= add:
+        time = add + remove * 2
+        if min_time > time or (time == min_time and curr_grand_height > height) :
+            min_time = time
+            height = curr_grand_height
 
 print(min_time, height)
-
-            
+    
