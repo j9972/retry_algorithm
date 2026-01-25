@@ -5,13 +5,19 @@ n = int(input())
 m = int(input())
 s = input().rstrip()
 
-val = 'I'
-for i in range(n):
-    val += 'OI'
-
 cnt = 0
+ans = 0
+idx = 0
 
-for i in range(m-2*n):
-    if s[i:i+2*n+1] == val:
+while idx < m - 2:
+    if s[idx:idx+3] == 'IOI':
         cnt += 1
-print(cnt)
+
+        if cnt >= n:
+            ans += 1
+        
+        idx += 2
+    else:
+        cnt = 0
+        idx += 1
+print(ans)
