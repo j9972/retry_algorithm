@@ -3,26 +3,57 @@ input = sys.stdin.readline
 
 import heapq
 
-for tc in range(int(input())):
-    heap = []
+def isEmpty(numbers):
+    for num in numbers:
+        if num[1] > 0:
+            return False
+    return True
 
-    for i in range(int(input())):
-        ID, value = input().split()
+for _ in range(int(input())):
 
-        if ID == 'I':
-            heapq.heappush(heap, int(value))
-        elif ID == 'D' and len(heap) != 0:
-            if int(value) == 1:    
-                heapq.nlargest(1, heap)[0]
-            elif int(value) == -1:
-                heapq.heappop(heap)
+    n = int(input())
+
+    max_heap , min_heap = [], []
+    numbers = {}
+
+    for i in range(n):
+        char , val = input().split()
+        val = int(val)
+
+        if char == 'I':
+
+            if val in numbers:
+                numbers[val] += 1
+            else:
+                heapq.heappush(max_heap, -val)
+                heapq.heappush(min_heap, val)
+                numbers[val] = 1
         
-        print(i , "번째 : ", heap)
-                
+        elif char == 'D':
+            if not isEmpty(numbers.items()):
+                if val == 1: # 최댓값
+                    while -max_heap[0] not in numbers or numbers[-max_heap[0]] < 1:
+                        temp = -heapq.heappop(max_heap)
+                        if temp in numbers:
+                            del(numbers[temp])
+                    numbers[-max_heap[0]] -= 1
+
+                else:
+                    while min_heap[0] not in numbers or numbers[min_heap[0]] < 1:
+                        temp = heapq.heappop(min_heap)
+                        if temp in numbers:
+                            del(numbers[temp])
+                    numbers[min_heap[0]] -= 1
+        
     
-    if len(heap) == 0:
+    if isEmpty(numbers.items()):
         print("EMPTY")
     else:
-        print(max(heap), heapq.heappop(heap))
+        while -max_heap[0] not in numbers or numbers[-max_heap[0]] < 1:
+            heapq.heappop(max_heap)
+        while min_heap[0] not in numbers or numbers[min_heap[0]] < 1:
+            heapq.heappop(min_heap)
+        print(-max_heap[0], min_heap[0])
 
 
+            
